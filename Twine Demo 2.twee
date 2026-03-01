@@ -1,16 +1,163 @@
 :: StoryTitle
-Twine Demo 2
+Twine Minigame 3
 
 
 :: StoryData
 {
-  "ifid": "F7A58FA1-A989-45F8-8A67-32910EB9EAFE",
+  "ifid": "6EDDAB3C-3BA0-4532-8FD0-043F8AF4C14C",
   "format": "SugarCube",
   "format-version": "2.37.3",
-  "start": "rename me",
+  "start": "intro",
   "zoom": 1
 }
 
 
-:: rename me {"position":"600,250","size":"100,100"}
+:: I did it! {"position":"1100,1125","size":"100,100"}
+<<set $docked to $daycount * 5>>
+Good job! You finished your Twine minigame!
 
+You finished at $daycount days.
+
+<<if $docked >= 50>>
+Your assignment got docked by 50 %.
+<<else>>
+Your assignment docked off by $docked %.
+<</if>>
+
+[[back->intro]]
+
+
+
+
+
+
+:: begin {"position":"1100,625","size":"100,100"}
+<<set $day to $daycount % 7>>
+<<if $day == 1>>
+Today is currently Monday.
+<</if>>
+<<if $day == 2>>
+Today is currently Tuesday.
+<</if>>
+<<if $day == 3>>
+Today is currently Wednesday.
+<</if>>
+<<if $day == 4>>
+Today is currently Thursday.
+<</if>>
+<<if $day == 5>>
+Today is currently Friday.
+<</if>>
+<<if $day == 6>>
+Today is currently Saturday.
+<</if>>
+<<if $day == 0>>
+Today is currently Sunday.
+<</if>>
+You currently have $assignments assighnments. Your Twine minigame is the last assignment.
+Your sadness is at $sadness
+Your parental disdain is at $disdain
+
+<!--I hate these stupid ass ifs they can die in a ditch-->
+<<if $disdain >= 10>>
+[[work->yikes]]
+[[rest->yikes]]
+<<elseif $sadness >= 10>>
+[[work->bleh]]
+[[rest->bleh]]
+<<elseif $day == 5 and $sadness < 10>>
+[[work->service]]
+[[rest->servicerest]]
+<<elseif $day == 0 and $sadness < 10>>
+[[work->sunday]]
+[[rest->sunday]]
+<<elseif $day == 0 and $sadness >= 10>>
+[[I did it!]]
+<<else>>
+[[work]]
+[[rest]]
+<</if>>
+
+
+
+
+
+:: bleh {"position":"1100,875","size":"100,100"}
+Uh oh! You're too depressed to do anything for 2 days! What a shame!!
+<<set $sadness to 0>>
+<<set $daycount to $daycount + 2>>
+
+[[continue->begin]]
+
+
+:: intro {"position":"1100,500","size":"100,100"}
+Hi
+This is a game about procrastination
+Very meta and cool and definitely not a half assed vent project by jabez jeon :3
+<<set $daycount to 1>>
+<<set $sadness to 5>>
+<<set $disdain to 0>>
+<<set $assignments to 4>>
+
+[[begin]]
+[[words]]
+
+
+:: rest {"position":"1225,750","size":"100,100"}
+Your parents get angry at you for not working. Your parental disdain goes up by 3.
+<<set $disdain to $disdain + 3>>
+<<set $daycount to $daycount + 1>>
+<<set $sadness to $sadness - 2>>
+
+[[continue->begin]]
+
+
+:: service {"position":"1225,875","size":"100,100"}
+You had community service work to do today! Despite this, you still decide to work, making you more miserable than usual! Your parents appreciate your work ethic though.
+<<set $sadness to $sadness + 6>>
+<<set $disdain to $disdain - 2>>
+<<set $assignments to $assignments - 0.5>>
+<<set $daycount to $daycount + 1>>
+
+[[continue->begin]]
+
+
+:: servicerest {"position":"975,1000","size":"100,100"}
+You had community service work to do today! You decide to rest today, and your parents decide to accept that fact because of your hard work today.
+<<set $sadness to $sadness - 6>>
+<<set $daycount to $daycount + 1>>
+
+[[continue->begin]]
+
+
+:: sunday {"position":"1100,1000","size":"100,100"}
+You were too busy the entire day to do anything! You get nothing done, and the anxiety from not doing anything increases your misery! Your parents appreciate your work ethic, however.
+<<set $sadness to $sadness + 5>>
+<<set $disdain to $disdain - 2>>
+<<set $daycount to $daycount + 1>>
+
+[[continue->begin]]
+
+
+:: words {"position":"1225,625","size":"100,100"}
+This was, if you couldn't tell, based off how my past week was so far. It's obviously not accurate, but I needed to get some stuff off my chest. Thank you for tolerating my cringe lmao
+
+[[ok->intro]]
+
+
+:: work {"position":"1100,750","size":"100,100"}
+You manage to finish half an assignment. Good job!
+<<set $assignments to $assignments - 0.5>>
+<<set $sadness to $sadness + 4>>
+<<set $daycount to $daycount + 1>>
+[[continue->begin]]
+
+
+
+:: yikes {"position":"975,750","size":"100,100"}
+Your parents finally confront you about the lack of work you're doing! You get real sad and can't work for the rest of the day.
+
+<<set $sadness to $sadness + 8>>
+<<set $daycount to $daycount + 1>>
+<<set $disdain to 0>>
+[[continue->begin]]
